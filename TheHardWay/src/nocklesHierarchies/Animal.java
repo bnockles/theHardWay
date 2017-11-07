@@ -1,8 +1,11 @@
 package nocklesHierarchies;
 
-public class Klass {
+public class Animal {
 
-	public Klass() {
+	public static Animal[] things;
+	
+	
+	public Animal() {
 		// TODO Auto-generated constructor stub
 	}
 
