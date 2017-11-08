@@ -23,7 +23,16 @@ public class Wilderness extends Habitat {
 			for(Animal a: getAnimals()){
 				if(a instanceof ReproductionAnimal)((ReproductionAnimal)a).reset();
 			}
-			String s = "\nROUND "+(i+1)+"\n"+this;
+			int predatorCount = 0;
+			int preyCount = 0;
+			for(Animal a: getAnimals()){
+				if(a instanceof Predator){
+					predatorCount++;
+				}else if(a instanceof Prey){
+					preyCount++;
+				}
+			}
+			String s = "\nROUND "+(i+1)+"\nPREDATORS: "+predatorCount+", PREY: "+preyCount+"\n"+this;
 			System.out.println(s);
 			for(Animal a: getAnimals()){
 				if(a != null)a.act();
