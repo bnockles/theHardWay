@@ -6,6 +6,8 @@ public class CopyArrays {
 	{
 	
 		int[] intArray = new int[10];
+		
+		
 		for (int i = 0; i < intArray.length; i++)
 		{
 			intArray[i] = (int)(Math.random()*10);
@@ -42,8 +44,5 @@ public class CopyArrays {
 		}
 		System.out.println();
 	}
-	
-	
-	
 
 }
