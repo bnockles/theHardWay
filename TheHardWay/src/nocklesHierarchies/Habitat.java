@@ -3,24 +3,42 @@ package nocklesHierarchies;
 public class Habitat extends Environment {
 
 	private Animal[] animals;
+	private int plantFood;
+	private int growthRate;
 	
 	public static void main(String[] args) {
-		Habitat h = new Habitat(10);
-		Animal first = new Animal();
-		h.addAnimal(first);
-		h.printStatus();
+		Habitat h = new Habitat(5);
+		int count = 0;
+		while(count < 6){
+			Animal a = new Animal();
+			h.addAnimal(a);
+			count++;
+		}
+		System.out.println(h);
 	}
 
 
 	public Habitat(int livingCapacity) {
+		plantFood = livingCapacity;
+		growthRate = plantFood/2;
 		animals = new Animal[livingCapacity];
 	}
 
-	public void printStatus() {
-		System.out.println("Habitants:");
+	public String toString() {
+		String s = super.toString()+"\nHabitants:\n"+animalReport();;
+		return s;
+	}
+	
+	public String animalReport(){
+		String s = "";
 		for(Animal a: animals) {
-			System.out.println(a);
+			s += a+"\n";
 		}
+		return s;
+	}
+	
+	public Animal[] getAnimals(){
+		return animals;
 	}
 
 	
@@ -33,9 +51,31 @@ public class Habitat extends Environment {
 			}
 			i++;
 		}
-		if(i == animals.length) {
-			System.out.println("The habitat has reached its maximum capacity.");
+	}
+	
+	public void growPlants(){
+		plantFood+= growthRate;
+		System.out.println("\nThere is enough plant food for "+plantFood+" herbivores.");
+	}
+
+
+	public void removeAnimal(int i) {
+		animals[i] = null;
+	}
+	
+	public void removeAnimal(Animal a) {
+		for(int i = 0; i < animals.length; i++){
+			if (animals[i] == a)animals[i] = null;
 		}
+	}
+
+
+	public boolean eatPlantFood() {
+		if(plantFood > 0){
+			plantFood--;
+			return true;
+		}
+		return false;
 	}
 
 

@@ -4,20 +4,12 @@ public class Animal {
 
 	private String description;
 
-	
-	public static final String[] traits = {
-			"striped",
-			"long-tailed",
-			"furry",
-			"brown",
-			"short-eared",
-			
-			"spotted",
-			"short-tailed",
-			"hairless",
-			"white",
-			"long-eared"}; 
-	
+	private Trait trait1;
+	private Trait trait2;
+	protected int age;
+	protected boolean mated;
+
+
 	public static void main(String[] args) {
 
 		for(int i = 0; i < 10; i++) {
@@ -25,25 +17,68 @@ public class Animal {
 			System.out.println(someAnimal);
 		}
 	}
-	
+
 	public Animal() {
-		description = "a "+createTraits()+" animal";
+		chooseTraits();
+		description = getName();
+		age = 0;
 	}
 
-	private String createTraits() {
-		int trait1 = (int)(Math.random()*traits.length);
-		int trait2 = (int)(Math.random()*traits.length);
-		while(Math.abs(trait1 - trait2)%traits.length == 0) {
-			trait2 = (int)(Math.random()*traits.length);
+	public Animal(String description, Trait trait1, Trait trait2) {
+		this.trait1 = trait1;
+		this.trait2 = trait2;
+		while(trait2.equals(trait1)){
+			trait2 = new Trait();
 		}
-		return traits[trait1]+", "+traits[trait2];
+		this.description = description;
 	}
+
+	public String getName(){
+		return "animal";
+	}
+
+	public String getDescription(){
+		return this.description;
+	}
+
+	public void chooseTraits() {
+		trait1 = new Trait();
+		trait2 = new Trait();
+		while(trait1.equals(trait2)) {
+			trait2 = new Trait();
+		}
+	}
+
 
 	public String toString() {
-		return getClass()+": " + description;
+		return "a "+age+" year old, "+trait1+", "+trait2+" "+description;
+	}
+
+	public Trait getTrait1(){
+		return trait1;
+	}
+
+	public Trait getTrait2(){
+		return trait2;
+	}
+
+	public int getAge(){
+		return age;
+	}
+	
+	public void increaseAge(){
+		age++;
+	}
+	
+	public void act(){
+		System.out.println(this + " is sleeping.");
+		mated = true;
+	}
+	
+	public void reset() {
+		mated = false;
 	}
 
 
-	
 
 }
