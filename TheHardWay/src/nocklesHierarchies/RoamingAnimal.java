@@ -31,15 +31,24 @@ public class RoamingAnimal extends Animal {
 	}
 	
 	public void act(){
-
 		increaseAge();
-		if(getAge() > 5 || !habitat.eatPlantFood()){
+		if(!canEat()){
+			System.err.println(this+" died of starvation");
 			habitat.removeAnimal(this);;
 		}else{
-			if(!mated){
+			if(!hasMated()){
 				mate();
+			}
+			if(getAge() > 5){
+				System.err.println(this+" has died of old age.");
+				habitat.removeAnimal(this);
 			}
 		}
 	}
+
+	public boolean canEat() {
+		return habitat.eatPlantFood();
+	}
+
 
 }

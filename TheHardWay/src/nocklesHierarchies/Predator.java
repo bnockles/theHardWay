@@ -2,22 +2,24 @@ package nocklesHierarchies;
 
 public class Predator extends ReproductionAnimal {
 
-	
-//	private Habitat matingArea;
-	
+
+	//	private Habitat matingArea;
+
 	public Predator(Habitat matingArea){
 		super(matingArea);
+		setMaxLitterSize(3);
 	}
-	
-	
+
+
 	public Predator(Habitat matingArea, String description, Trait trait1, Trait trait2) {
 		super(matingArea, description, trait1, trait2);
+		setMaxLitterSize(3);
 	}
 
 	public static final String[] PREDATORS = {"wolf","bear","lion","bobcat"};
-	
 
-	
+
+
 	public String getName(){
 		return PREDATORS[(int)(Math.random()* PREDATORS.length)];
 	}
@@ -28,43 +30,29 @@ public class Predator extends ReproductionAnimal {
 		wilderness.addAnimal(p);
 		wilderness.simulate(2);
 	}
-	
+
 	public ReproductionAnimal getOffspring(ReproductionAnimal mate) {
-		if(getDescription().equals(mate.getDescription()) && mate.getSex() != getSex()){
-			Predator baby = new Predator(habitat, getDescription(), 
-					Trait.getDominantTrait(getTrait1(), mate.getTrait1()),
-					Trait.getDominantTrait(getTrait2(), mate.getTrait2()));
-			this.mated = true;
-			mate.mated = true;
-			return baby;
-		}
-		return null;
+
+		return new Predator(habitat, getDescription(), 
+				Trait.getDominantTrait(getTrait1(), mate.getTrait1()),
+				Trait.getDominantTrait(getTrait2(), mate.getTrait2()));
+
 	}
-	
-	public void act(){
-		int i = 0;
-		while(i < habitat.getAnimals().length){
-			Animal target = habitat.getAnimals()[i];
-			if(target instanceof Prey){//SPECIAL NOTE: For code to compile, you must create a 'Prey' class. It will be written in the next activity.
-				habitat.removeAnimal(i);
-				System.err.println(this + " ate a "+target);
-				
-				break;
+
+	public boolean canEat(){
+		int attempts = 0;
+		while(attempts <3){
+			int tIndex = (int)(Math.random()*habitat.getAnimals().length);
+			Animal target = habitat.getAnimals()[tIndex];
+			if(target instanceof Prey){
+				habitat.removeAnimal(tIndex);
+				System.err.println(this + " ate "+target);
+				return true;
 			}
-			i++;
+			attempts++;
 		}
-		
-		if(i == habitat.getAnimals().length){
-			System.err.println(this +"died of starvation");
-			habitat.removeAnimal(this);
-		}
-		else if(age > 5){
-			System.err.println(this +"died of old age");
-			habitat.removeAnimal(this);
-		}else{
-			increaseAge();
-			if(!mated) mate();
-		}
+		return false;
+
 	}
 
 }

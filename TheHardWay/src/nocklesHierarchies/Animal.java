@@ -6,8 +6,8 @@ public class Animal {
 
 	private Trait trait1;
 	private Trait trait2;
-	protected int age;
-	protected boolean mated;
+	private int age;
+	private boolean mated;
 
 
 	public static void main(String[] args) {
@@ -73,6 +73,14 @@ public class Animal {
 	public void act(){
 		System.out.println(this + " is sleeping.");
 		mated = true;
+	}
+	
+	public boolean hasMated(){
+		return mated;
+	}
+	
+	public void setMated(boolean b){
+		this.mated = b;
 	}
 	
 	public void reset() {

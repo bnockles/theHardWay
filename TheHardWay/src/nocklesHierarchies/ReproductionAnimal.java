@@ -2,7 +2,7 @@ package nocklesHierarchies;
 
 public class ReproductionAnimal extends RoamingAnimal {
 
-
+	private int maxLitter;
 
 	public static void main(String[] args) {
 		Habitat h = new Habitat(3);
@@ -19,38 +19,44 @@ public class ReproductionAnimal extends RoamingAnimal {
 
 	public ReproductionAnimal(Habitat matingArea) {
 		super(matingArea);
-
+		maxLitter = 1;
 	}
 
 	public ReproductionAnimal(Habitat matingArea, String description, Trait trait1, Trait trait2){
 		super(matingArea, description, trait1, trait2);
+		maxLitter = 1;
 	}
 
-
+	public void setMaxLitterSize(int max){
+		this.maxLitter = max;
+	}
 
 	public ReproductionAnimal getOffspring(ReproductionAnimal mate) {
-		if(getDescription().equals(mate.getDescription()) && mate.getSex() != getSex()){
-			ReproductionAnimal baby = new ReproductionAnimal(habitat, getDescription(), 
+			return new ReproductionAnimal(habitat, getDescription(), 
 					Trait.getDominantTrait(getTrait1(), mate.getTrait1()),
 					Trait.getDominantTrait(getTrait2(), mate.getTrait2()));
-			this.mated = true;
-			mate.mated = true;
-			return baby;
-		}
-		return null;
 	}
 
 
 
-	public void mate(){
+	public final void mate(){
 
 		int i = 0;
 		while(i < habitat.getAnimals().length){
 			Animal target = habitat.getAnimals()[i];
-			if(target instanceof ReproductionAnimal && target.getDescription().equals(getDescription())){
+			if(target instanceof ReproductionAnimal && 
+					target.getDescription().equals(getDescription()) && 
+					((ReproductionAnimal) target).getSex()!=getSex() &&
+					!target.hasMated()){
 				Animal baby = getOffspring((ReproductionAnimal)target);
 				if(baby != null){//SPECIAL NOTE: For code to compile, you must create a 'Prey' class. It will be written in the next activity.
-					habitat.addAnimal(baby);
+					int litterSize = (int)(Math.random() * maxLitter);
+					for(int j = 1; j < litterSize; j++){
+						habitat.addAnimal(baby);
+						baby = getOffspring((ReproductionAnimal)target);
+					}
+					setMated(true);
+					target.setMated(true);
 					break;
 				}
 			}
