@@ -3,8 +3,7 @@ package nocklesHierarchies;
 public class Habitat extends Environment {
 
 	private Animal[] animals;
-	private int plantFood;
-	private int growthRate;
+
 	
 	public static void main(String[] args) {
 		Habitat h = new Habitat(5);
@@ -19,8 +18,7 @@ public class Habitat extends Environment {
 
 
 	public Habitat(int livingCapacity) {
-		plantFood = livingCapacity;
-		growthRate = plantFood/2;
+		super(livingCapacity);
 		animals = new Animal[livingCapacity];
 	}
 
@@ -53,10 +51,6 @@ public class Habitat extends Environment {
 		}
 	}
 	
-	public void growPlants(){
-		plantFood+= growthRate;
-		System.out.println("\nThere is enough plant food for "+plantFood+" herbivores.");
-	}
 
 
 	public void removeAnimal(int i) {
@@ -69,14 +63,6 @@ public class Habitat extends Environment {
 		}
 	}
 
-
-	public boolean eatPlantFood() {
-		if(plantFood > 0){
-			plantFood--;
-			return true;
-		}
-		return false;
-	}
 
 
 }

@@ -3,17 +3,8 @@ package nocklesHierarchies;
 public class Trait {
 
 	public static final String[] traits = {
-			"striped",
-			"long-tailed",
-			"furry",
-			"brown",
-			"short-eared",
-			
-			"spotted",
-			"short-tailed",
-			"hairless",
-			"white",
-			"long-eared"}; 
+			"striped","long-tailed", "furry",   "brown","short-eared",	
+			"spotted","short-tailed","hairless","white","long-eared"}; 
 	
 	private String description;
 	private int index;
@@ -49,7 +40,9 @@ public class Trait {
 	}
 	
 	public static Trait getDominantTrait(Trait t1, Trait t2){
-		if(t1.getIndex()<t2.getIndex())return t1;
+		if(t1.equals(t2) && t1.getIndex() <t2.getIndex())return t1;
+		else if(t1.equals(t2) && t2.getIndex() <t1.getIndex())return t2;
+		else if(Math.random() <.5)return t1;
 		return t2;
 	}
 	
