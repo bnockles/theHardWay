@@ -35,8 +35,7 @@ public class Trait {
 	}
 	
 	public boolean equals(Object o){
-		
-		return (o instanceof Trait) && (this.getIndex() - ((Trait)o).getIndex()) % (traits.length/2) == 0;
+		return (o instanceof Trait) && ((this.getIndex() - ((Trait)o).getIndex()) % (traits.length/2) == 0);
 	}
 	
 	public static Trait getDominantTrait(Trait t1, Trait t2){
