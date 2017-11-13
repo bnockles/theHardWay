@@ -23,12 +23,17 @@ public class BinarySearch {
 		System.out.println(binSearch(test1, 1)); // 0
 	}
 	
+	
+	
+	
+	
 	//returns the position of num in arr, or -1 if not found
 	//pre-condition arr is an array of integers in ascending order
 	public static int binSearch(int[] arr, int num)
 	{
 		int first = 0;
 		int last = arr.length - 1;
+		
 		while(first <= last)
 		{
 			int mid = (first + last)/2;
@@ -53,6 +58,20 @@ public class BinarySearch {
 		return -1;
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public static int linSearch(int [] arr, int num)
 	{
