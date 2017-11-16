@@ -13,61 +13,31 @@ public class Fireworks {
 	private void start() {
 		int count = 8;
 		while(count > 0) {
-			relax();
+			update();
 			displaySky();
 			pause(300);
 			expand();
-			update();
 			count--;
 			System.out.println("");
 		}
 	}
 
-	private void relax() {
-		for(int row = 0; row< sky.length; row++) {
-			for(int col = 0; col < sky[row].length; col++) {
-				if(sky[row][col].equals("o") && !borders(row,col,"0")) {
-					sky[row][col] = " ";
-				}
-			}
-		}
-	}
 
 	private void update() {
 		for(int row = 0; row< sky.length; row++) {
 			for(int col = 0; col < sky[row].length; col++) {
-				if(sky[row][col].equals("0")) {
-					sky[row][col] = "o";
-				
-				}else if(sky[row][col].equals("O")) {
-					sky[row][col] = "0";
-				
+				if(sky[row][col].equals("o")) {
+					sky[row][col] = "O";
 				}
 			}
 		}
 	}
 	
-
-
-	private boolean borders(int row, int col, String string) {
-		for(int i = row - 1; i <= row+1; i++) {
-			for(int j = col -1; j <= col +1; j++) {
-				if(i >= 0 && i < sky.length && j >= 0 && j < sky[i].length) {
-					if(sky[i][j].equals(string)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
 	private void expand() {
 		for(int row = 0; row< sky.length; row++) {
 			for(int col = 0; col < sky[row].length; col++) {
-				if(sky[row][col].equals("0")) {
+				if(sky[row][col].equals("O")) {
 					ripple(row,col);
-					sky[row][col] = "o";
 				}
 			}
 		}
@@ -78,8 +48,7 @@ public class Fireworks {
 			for(int j = col -1; j <= col +1; j++) {
 				if(i >= 0 && i < sky.length && j >= 0 && j < sky[i].length) {
 					if(sky[i][j].equals(" ")) {
-						sky[i][j] = "O";
-//						break A;
+						sky[i][j] = "o";
 					}
 				}
 			}
@@ -110,7 +79,10 @@ public class Fireworks {
 				row[col] = " ";
 			}
 		}
-		sky[6][6] = "0";
+		sky[6][6] = "O";
+		for(int col = 3; col < sky.length-3;col++){
+			sky[2][col] = "-";
+		}
 	}
 	
 }

@@ -18,8 +18,22 @@ public class RoamingAnimal extends Animal {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		int capacity = 6;
+		Habitat h = new Habitat(capacity);
+		for(int i = 0; i < capacity; i++){
+			RoamingAnimal r = new RoamingAnimal(h);
+			h.addAnimal(r);
+		}
+		System.out.println(h);
+		int years = 7;
+		for(int y = 0; y < years; y++){
+			for(Animal a: h.getAnimals()){
+				if(a != null) a.act();
+			}
+			h.growPlants();
+			System.out.println("\n"+h);
+		}
+		
 	}
 	
 	public boolean getSex() {
@@ -33,12 +47,12 @@ public class RoamingAnimal extends Animal {
 	public void act(){
 		increaseAge();
 		if(!canEat()){
-//			System.err.println(this+" died of starvation");
+			System.out.println(this+" died of starvation");
 			habitat.removeAnimal(this);;
 		}else{
 			
 			if(getAge() > 5){
-//				System.err.println(this+" has died of old age.");
+				System.out.println(this+" has died of old age.");
 				habitat.removeAnimal(this);
 			}
 			if(!hasMated()){

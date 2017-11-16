@@ -49,7 +49,6 @@ public class Animal {
 		}
 	}
 
-
 	public String toString() {
 		return "a "+age+" year old, "+trait1+", "+trait2+" "+description;
 	}
@@ -86,7 +85,4 @@ public class Animal {
 	public void reset() {
 		mated = false;
 	}
-
-
-
 }

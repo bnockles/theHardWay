@@ -4,7 +4,6 @@ public class Habitat extends Environment {
 
 	private Animal[] animals;
 
-	
 	public static void main(String[] args) {
 		Habitat h = new Habitat(5);
 		int count = 0;
@@ -16,15 +15,13 @@ public class Habitat extends Environment {
 		System.out.println(h);
 	}
 
-
 	public Habitat(int livingCapacity) {
 		super(livingCapacity);
 		animals = new Animal[livingCapacity];
 	}
 
 	public String toString() {
-		String s = super.toString()+"\nHabitants:\n"+animalReport();;
-		return s;
+		return super.toString()+"\nHabitants:\n"+animalReport();
 	}
 	
 	public String animalReport(){
@@ -38,7 +35,6 @@ public class Habitat extends Environment {
 	public Animal[] getAnimals(){
 		return animals;
 	}
-
 	
 	public void addAnimal(Animal animal) {
 		int i = 0;
@@ -50,8 +46,6 @@ public class Habitat extends Environment {
 			i++;
 		}
 	}
-	
-
 
 	public void removeAnimal(int i) {
 		animals[i] = null;
