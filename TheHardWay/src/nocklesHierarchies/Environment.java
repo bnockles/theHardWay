@@ -74,7 +74,7 @@ public class Environment {
 	}
 	
 	public void growPlants(){
-		plants+= growthRate;
+		plants+= growthRate + 1.81*plants;
 		System.out.println("\nThere are "+plants+" plants.");
 	}
 

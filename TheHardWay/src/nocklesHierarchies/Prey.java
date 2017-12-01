@@ -6,9 +6,9 @@ public class Prey extends ReproductionAnimal {
 	public static final String[] PREY = {"bunny"};
 
 	public static void main(String[] args) {
-		Wilderness wilderness = new Wilderness("A Wooded Area",40);
-		int numPredators = 6;
-		int numPrey = 25;
+		Wilderness wilderness = new Wilderness("A Wooded Area",400);
+		int numPredators = 60;
+		int numPrey = 250;
 		for(int i = 0; i < numPredators; i++){
 			Predator predator = new Predator(wilderness,"wolf",new Trait(),new Trait());		
 			wilderness.addAnimal(predator);
@@ -28,7 +28,7 @@ public class Prey extends ReproductionAnimal {
 
 	public Prey(Habitat habitat, String description, Trait dominantTrait, Trait dominantTrait2) {
 		super(habitat,description,dominantTrait,dominantTrait2);
-		setMaxLitterSize(8);
+		setMaxLitterSize(6);
 	}
 
 	public String getName(){

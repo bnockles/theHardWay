@@ -32,7 +32,7 @@ public class Predator extends ReproductionAnimal {
 	}
 
 	public ReproductionAnimal getOffspring(ReproductionAnimal mate) {
-		System.err.println("Two predators mated");
+		//System.err.println("Two predators mated");
 		return new Predator(habitat, getDescription(), 
 				Trait.getDominantTrait(getTrait1(), mate.getTrait1()),
 				Trait.getDominantTrait(getTrait2(), mate.getTrait2()));
