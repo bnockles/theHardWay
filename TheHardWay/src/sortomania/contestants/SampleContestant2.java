@@ -1,5 +1,6 @@
 package sortomania.contestants;
 
+import java.awt.Color;
 import java.util.Arrays;
 
 import sortomania.Contestant;
@@ -15,7 +16,7 @@ public class SampleContestant2 extends Contestant {
 	}
 	
 	public String toString(){
-		return "Merge.sort";
+		return "Gremlin";
 	}
 	
     private int[] numbers;
@@ -25,6 +26,8 @@ public class SampleContestant2 extends Contestant {
     public void sort(int[] values) {
         this.numbers = values;
         this.helper = new int[values.length];
+        //does not always succeed
+        if(Math.random() < .05)return;
         mergesort(0, values.length - 1);
     }
 	
@@ -145,6 +148,11 @@ public class SampleContestant2 extends Contestant {
 			}
 		}
 		return i;
+	}
+
+	@Override
+	public Color getColor() {
+		return Color.RED;
 	}
 
 }

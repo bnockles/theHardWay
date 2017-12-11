@@ -1,5 +1,6 @@
 package sortomania.contestants;
 
+import java.awt.Color;
 import java.util.Arrays;
 
 import sortomania.Contestant;
@@ -144,6 +145,12 @@ public class SampleContestant4 extends Contestant{
 			}
 		}
 		return i;
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return new Color(220,140,230);
 	}
 
 

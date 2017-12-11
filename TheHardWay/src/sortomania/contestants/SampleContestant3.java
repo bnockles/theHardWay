@@ -1,5 +1,6 @@
 package sortomania.contestants;
 
+import java.awt.Color;
 import java.util.Arrays;
 
 import sortomania.Contestant;
@@ -15,7 +16,7 @@ public class SampleContestant3 extends Contestant {
 	}
 	
 	public String toString(){
-		return "Radix sort";
+		return "THE BEAST";
 	}
 	
 	// A utility function to get maximum value in arr[]
@@ -60,7 +61,7 @@ public class SampleContestant3 extends Contestant {
     }
  
 	public String getSpriteName() {
-		return CHUN_LI;
+		return BLANKA;
 	}
 
     
@@ -144,5 +145,11 @@ public class SampleContestant3 extends Contestant {
 			}
 		}
 		return i;
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return Color.ORANGE;
 	}
 }

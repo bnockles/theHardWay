@@ -130,7 +130,7 @@ public class CompetitionRunner implements Runnable {
 		Generic[] copy = Arrays.copyOf(original, original.length);
 		int index= c.sortAndSearch(copy, ds.getTask5Key(i));
 		boolean pass = ds.checkTest5(c, copy, index, i);
-		if (!pass){
+		if (!pass && pair.getWinner() == null){
 			pause(1.0);
 		}
 
@@ -142,7 +142,7 @@ public class CompetitionRunner implements Runnable {
 		int[][] copy = copyOf(original);
 		double median = c.sortMultiDim(copy);
 		boolean pass = ds.checkTest4(c, copy, median, i);
-		if (!pass){
+		if (!pass && pair.getWinner() == null){
 			pause(2.0);
 		}
 
@@ -164,7 +164,7 @@ public class CompetitionRunner implements Runnable {
 		int[] copy = Arrays.copyOf(original, original.length);
 		double median = c.mostlySortAndGetMedian(copy);
 		boolean pass = ds.checkTest3(c, copy, median, i);
-		if (!pass){
+		if (!pass && pair.getWinner() == null){
 			pause(1.0);
 		}
 
@@ -176,7 +176,7 @@ public class CompetitionRunner implements Runnable {
 		String[] copy = Arrays.copyOf(original, original.length);
 		int index = c.sortAndGetResultingIndexOf(copy, ds.getTask2Key(i));
 		boolean pass = ds.checkTest2(c, copy, index, i);
-		if (!pass){
+		if (!pass && pair.getWinner() == null){
 			pause(1.0);
 		}
 
@@ -188,7 +188,7 @@ public class CompetitionRunner implements Runnable {
 		int[] copy = Arrays.copyOf(original, original.length);
 		double median = c.sortAndGetMedian(copy);
 		boolean pass = ds.checkTest1(c, copy, median, i);
-		if (!pass){
+		if (!pass && pair.getWinner() == null){
 			pause(1.0);
 		}
 

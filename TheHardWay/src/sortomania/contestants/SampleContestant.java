@@ -1,5 +1,6 @@
 package sortomania.contestants;
 
+import java.awt.Color;
 import java.util.Arrays;
 
 import sortomania.Contestant;
@@ -16,7 +17,7 @@ public class SampleContestant extends Contestant{
 	}
 	
 	public String toString(){
-		return "Arrays.sort";
+		return "Wizard";
 	}
 
 	private double median(int[] sorted) {
@@ -123,6 +124,17 @@ public class SampleContestant extends Contestant{
 			}
 		}
 		return i;
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return Color.blue;
+	}
+
+	@Override
+	public String getSpriteName() {
+		return CHUN_LI;
 	}
 
 

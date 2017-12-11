@@ -1,5 +1,6 @@
 package sortomania;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -21,7 +22,7 @@ public abstract class Contestant extends Component implements Runnable{
 	String status;
 	int currentTask;
 	int points;
-	int currentScore;
+	double currentScore;
 	boolean wonLastRound;
 	int correctSorts;
 	int totalSorts;
@@ -52,6 +53,10 @@ public abstract class Contestant extends Component implements Runnable{
 	public static final String RYU = "resources/ryu-sprite-sheet.png";
 	public static final String CHUN_LI = "resources/chun-li-sprite-sheet.png";
 	public static final String DEE_JAY = "resources/dee-jay-sprite-sheet.png";
+	public static final String BLANKA = "resources/blanka-sprite-sheet.png";
+	public static final String E_HONDA = "resources/e-honda-sprite-sheet.png";
+	public static final String FEI_LONG = "resources/fei-long-sprite-sheet.png";
+	public static final String CAMMY = "resources/cammy-sprite-sheet.png";
 
 	public Contestant() {
 		super(0, 0, 410, 170);
@@ -70,11 +75,19 @@ public abstract class Contestant extends Component implements Runnable{
 		addFrames(getSpriteName());
 	}
 
-	public void addFrame(ArrayList<BufferedImage> set, ArrayList<Integer> timeset, BufferedImage image, Integer time){
+	public  final void addFrame(ArrayList<BufferedImage> set, ArrayList<Integer> timeset, BufferedImage image, Integer time){
 		set.add(image);
 		timeset.add(time);
 	}
 
+	/**
+	 * returns the team color
+	 * To return a color, retrieve them statically using Color.blue/red/green/etc
+	 * Or customize a color using RGB values, for example:
+	 * return new Color(255,200,200);
+	 * @return
+	 */
+	public abstract Color getColor();
 
 
 	private void addFrames(String spriteName) {
@@ -88,12 +101,32 @@ public abstract class Contestant extends Component implements Runnable{
 		}else if(spriteName.equals(CHUN_LI)){
 			int[] temp = {4,30,53,82,4,
 					435,141,69,82,3,
-					2,842,56,80,2};
+					2,850,56,82,2};
 			values = temp;
 		}else if(spriteName.equals(DEE_JAY)){
 			int[] temp = {8,32,56,92,4,
 					6,152,55,92,3,
 					887,1123,51,92,3};
+			values = temp;
+		}else if(spriteName.equals(BLANKA)){
+			int[] temp = {8,33,70,90,4,
+					0,152,81,90,3,
+					4,1167,66,90,3};
+			values = temp;
+		}else if(spriteName.equals(E_HONDA)){
+			int[] temp = {5,45,73,87,4,
+					6,152,75,90,3,
+					6,910,66,90,3};
+			values = temp;
+		}else if(spriteName.equals(FEI_LONG)){
+			int[] temp = {3,21,58,82,8,
+					6,131,55,85,3,
+					640,770,60,77,3};
+			values = temp;
+		}else if(spriteName.equals(CAMMY)){
+			int[] temp = {3,21,53,82,5,
+					0,131,63,77,3,
+					405,893,55,85,4};
 			values = temp;
 		}
 		
@@ -117,11 +150,21 @@ public abstract class Contestant extends Component implements Runnable{
 		}
 	}
 
-	public String getSpriteName() {
-		return KEN;
-	}
+	/**
+	 * 
+	 * @return on of the Sprite sheet image addresses. Available Sprites are from Street Fighter 2.
+	 *return KEN;
+	 *return RYU;
+	 *return CHUN_LI;
+	 *return DEE_JAY;
+	 *return BLANKA;
+	 *return CAMMY;
+	 *return E_HONDA;
+	 *return FEI_LONG;
+	 */
+	public abstract String getSpriteName();
 
-	public void setNumber(int i){
+	public final void setNumber(int i){
 		contestantNumber = i;
 		title = "Contestant "+i;
 		update();
@@ -181,10 +224,15 @@ public abstract class Contestant extends Component implements Runnable{
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		drawImage(g);
+		g.setColor(getColor());
+		g.fillRect(5, 5, 35, 35);
 		g.setFont(new Font("Futura", Font.PLAIN, 10));
 		g.setColor(Color.BLACK);
-		g.drawString(title+": "+this+", Score: "+points, 0, 20);
-		g.drawString(status, 0, 35);
+		g.setStroke(new BasicStroke(2));
+		g.drawRect(5, 5, 35, 35);
+		g.setStroke(new BasicStroke(1));
+		g.drawString(title+": "+this+", Score: "+points, 45, 20);
+		g.drawString(status, 45, 35);
 		if(currentScore <60){
 			g.setColor(Color.red);
 		}else if(currentScore < 70){
@@ -206,24 +254,9 @@ public abstract class Contestant extends Component implements Runnable{
 		}
 
 	}
+	
 
-	public void run(){
-
-		running = true;
-		while(running){
-
-			try {
-				Thread.sleep(REFRESH_RATE);
-				update();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-	}
-
-	public void move(int x, int y){
+	public final void move(int x, int y){
 		double xDif = x - getX();
 		double yDif = y - getY();
 		int origX = getX();
@@ -250,7 +283,50 @@ public abstract class Contestant extends Component implements Runnable{
 		movement.start();
 	}
 
-	public void drawImage(Graphics2D g) {
+	public final void run(){
+
+		running = true;
+		while(running){
+
+			try {
+				Thread.sleep(REFRESH_RATE);
+				update();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+//	public final void move(int x, int y){
+//		double xDif = x - getX();
+//		double yDif = y - getY();
+//		int origX = getX();
+//		int origY = getY();
+//		Thread movement = new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				int count = 0;
+//				double limit = 20;
+//				while(count <=limit){
+//					Contestant.this.setX((int)(origX+(xDif/limit)*count));
+//					Contestant.this.setY((int)(origY+(yDif/limit)*count));
+//					try {
+//						Thread.sleep(75);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					count++;
+//				}
+//			}
+//		});
+//		movement.start();
+//	}
+
+	public final void drawImage(Graphics2D g) {
 		long currentTime = System.currentTimeMillis();//gets time now
 
 		ArrayList<BufferedImage> frame;
@@ -313,44 +389,43 @@ public abstract class Contestant extends Component implements Runnable{
 	 * Performs a show demonstrating the Contestant has started the next task
 	 * @param i
 	 */
-	public void beginTask(int i) {
+	public final void beginTask(int i) {
 		currentTask = i;
 		status = "Task "+i+"... ";
 	}
 
-	public void successfulSort(boolean b, int trial) {
+	public final void successfulSort(boolean b, int trial) {
 		String report = (b)?"sorted "+trial+"! ":"failed "+trial+"! ";
 		status += report;
 		totalSorts += 1;
 		if(b){
 			correctSorts+=1;
-			currentScore+=1;
+			currentScore+=.1;
 		}else{
-			currentScore-=1;
+			currentScore-=.1;
 		}
 		update();
 	}
 
-	public void successfulFind(boolean b, int trial) {
+	public final void successfulFind(boolean b, int trial) {
 		String report = (b)?"found "+trial+"! ":"missed "+trial+"! ";
 		status += report;
 		totalMedians += 1;
 		if(b){
-			currentScore+=0;
 			correctMedians += 1;
 			attacking = true;
 
 		}else{
-			currentScore-=1;
+			currentScore-=.1;
 		}
 		update();
 	}
 
-	public boolean wonLastRound(){
+	public final boolean wonLastRound(){
 		return wonLastRound; 
 	}
 
-	public void markVictorious(boolean b) {
+	public final void markVictorious(boolean b) {
 		wonLastRound = b;
 		String report = (b)?"Victory! ":"Defeat! ";
 		if (b){
@@ -361,7 +436,7 @@ public abstract class Contestant extends Component implements Runnable{
 		update();
 	}
 
-	public void penalize(String string, int time) {
+	public final void penalize(String string, int time) {
 		hit = true;
 		if(time > 0){
 			try {
@@ -373,11 +448,11 @@ public abstract class Contestant extends Component implements Runnable{
 		}
 	}
 
-	public int getScore() {
-		return currentScore;
+	public final int getScore() {
+		return (int)(currentScore);
 	}
 
-	public void addTime(int test, int trial, long l) {
+	public final void addTime(int test, int trial, long l) {
 		int i = 0;
 		boolean addedNew = false;
 		while(i < recordedTimes[test-1].length){
