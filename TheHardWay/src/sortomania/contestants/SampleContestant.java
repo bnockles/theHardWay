@@ -1,9 +1,9 @@
 package sortomania.contestants;
 
-import java.awt.Graphics2D;
 import java.util.Arrays;
 
 import sortomania.Contestant;
+import sortomania.Generic;
 
 public class SampleContestant extends Contestant{
 
@@ -14,10 +14,14 @@ public class SampleContestant extends Contestant{
 		
 		return median(random);
 	}
+	
+	public String toString(){
+		return "Arrays.sort";
+	}
 
 	private double median(int[] sorted) {
 		if (sorted.length % 2 == 0){
-			return (sorted[sorted.length/2] + sorted[sorted.length/2])/2.0;
+			return (sorted[sorted.length/2] + sorted[sorted.length/2-1])/2.0;
 		}
 		return sorted[sorted.length/2];
 	}
@@ -30,7 +34,7 @@ public class SampleContestant extends Contestant{
 	
 	private double median(double[] sorted) {
 		if (sorted.length % 2 == 0){
-			return (sorted[sorted.length/2] + sorted[sorted.length/2])/2.0;
+			return (sorted[sorted.length/2] + sorted[sorted.length/2-1])/2.0;
 		}
 		return sorted[sorted.length/2];
 	}
@@ -59,14 +63,57 @@ public class SampleContestant extends Contestant{
 		double[] rowMedians = new double[grid.length];
 		int i = 0;
 		for(int[] row : grid){
-			rowMedians[i] = sortAndGetMedian(row);
+			quickSort(row,0,row.length-1);
+			rowMedians[i] = median(row);
+
 			i++;
 		}
 		return sortAndGetMedian(rowMedians);
 	}
+	
+    private void quickSort(int[] array, int lowerIndex, int higherIndex) {
+        
+        int i = lowerIndex;
+        int j = higherIndex;
+        // calculate pivot number, I am taking pivot as middle index number
+        int pivot = array[lowerIndex+(higherIndex-lowerIndex)/2];
+        // Divide into two arrays
+        while (i <= j) {
+            /**
+             * In each iteration, we will identify a number from left side which 
+             * is greater then the pivot value, and also we will identify a number 
+             * from right side which is less then the pivot value. Once the search 
+             * is done, then we exchange both numbers.
+             */
+            while (i < array.length && array[i] < pivot) {
+                i++;
+            }
+            while (j>= 0 && array[j] > pivot) {
+                j--;
+            }
+            if (i <= j) {
+                exchangeNumbers(array, i, j);
+                //move index to next position on both sides
+                i++;
+                j--;
+            }
+        }
+        // call quickSort() method recursively
+        if (lowerIndex < j)
+            quickSort(array,lowerIndex, j);
+        if (i < higherIndex)
+            quickSort(array,i, higherIndex);
+    }
+ 
+    private void exchangeNumbers(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
 
 	@Override
-	public int sortAndSearch(int[] arr, int toFind) {
+	public int sortAndSearch(Comparable[] arr, Comparable toFind) {
 		Arrays.sort(arr);
 		int i = -1;
 		for(int j = 0; j < arr.length; j++){

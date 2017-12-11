@@ -8,16 +8,15 @@ import guiTeacher.GUIApplication;
 public class Runner extends GUIApplication{
 
 	
-	ContestScreen screen;
+	static ContestScreen screen;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4596548043619696133L;
 
 	public Runner() {
-		super(800, 500);
-		Thread compete = new Thread(screen);
-		compete.start();
+		super(1200, 800);
+		
 	}
 
 	private void randomize(ArrayList a) {
@@ -36,22 +35,40 @@ public class Runner extends GUIApplication{
 		Thread go = new Thread(competition);
 		go.start();
 
-		
+		competition.runContest();
 	}
 
+	public void runContest(){
+		Thread compete = new Thread(screen);
+		compete.start();
+	}
+	
 
 
 	
 	void populate(ArrayList<Contestant> participants){
 		int x = 40; 
-		int y = 40; 
-		for(int i = 0; i < 16; i++){
-			SampleContestant c = new SampleContestant();
+		int y = 60; 
+		for(int i = 0; i < 4; i++){
+			
+			Contestant c = new SampleContestant();
+			if(i == 1){
+				c = new SampleContestant2();
+			}
+			if(i == 2){
+				c = new SampleContestant3();
+			}
+			if(i == 3){
+				c = new SampleContestant4();
+			}
+			
 			c.setX(x);
 			c.setY(y);
-			c.setNumber(i);
+			c.setNumber(i+1);
 			y+=c.getHeight()+10;
 			participants.add(c);
+			Thread animation = new Thread(c);
+			animation.start();
 		}
 		
 	}
@@ -61,7 +78,7 @@ public class Runner extends GUIApplication{
 		ArrayList<Contestant> participants = new ArrayList<Contestant>();
 		populate(participants);
 		randomize(participants);
-		ContestScreen screen = new ContestScreen(getWidth(), getHeight());
+		screen = new ContestScreen(getWidth(), getHeight());
 		screen.setparticipants(participants);
 		setScreen(screen);
 	}

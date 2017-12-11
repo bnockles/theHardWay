@@ -75,6 +75,9 @@ public class AnimatedComponent extends MovingComponent{
 			clear();
 			BufferedImage newFrame = frame.get(currentFrame);
 			g.drawImage(newFrame, 0,0,getWidth(),getHeight(),0,0,newFrame.getWidth(),newFrame.getHeight(),null);
+		}else{
+			BufferedImage newFrame = frame.get(currentFrame);
+			g.drawImage(newFrame, 0,0,getWidth(),getHeight(),0,0,newFrame.getWidth(),newFrame.getHeight(),null);
 		}
 	}
 
