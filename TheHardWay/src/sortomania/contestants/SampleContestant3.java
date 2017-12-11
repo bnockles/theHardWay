@@ -60,7 +60,7 @@ public class SampleContestant3 extends Contestant {
     }
  
 	public String getSpriteName() {
-		return DEE_JAY;
+		return CHUN_LI;
 	}
 
     
