@@ -133,9 +133,13 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 			@Override
 			public int compare(Contestant o1, Contestant o2) {
 				//smallest value is in first place
-				if (o2.getScore() < o1.getScore())return 1;
-				else if (o2.getScore() > o1.getScore())return -1;
-				else return 0;
+				if (o2.getPoints() > o1.getPoints())return 1;
+				else if (o2.getPoints() < o1.getPoints())return -1;
+				else {
+					if (o2.getScore() > o1.getScore())return 1;
+					else if (o2.getScore() < o1.getScore())return -1;
+					else return 0;
+				}
 			}
 
 		});
@@ -229,8 +233,8 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 			y+= deltaY;
 			if(y+deltaY>getHeight()){
 				y=50;
-				xa+=500;
-				xb+=500;
+				xa+=650;
+				xb+=650;
 			}
 		}
 	}

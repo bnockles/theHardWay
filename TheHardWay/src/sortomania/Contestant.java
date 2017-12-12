@@ -473,15 +473,11 @@ public abstract class Contestant extends Component implements Runnable{
 	}
 	
 	public double getScore(){
-		double sum = 0.0;
-		for(double avg : bestAverages){
-			sum += avg;
-			if(avg == 0.0){
-				sum += 5000000;
-			}
-		}
-		System.out.println(this+"'s average is "+ sum/(bestAverages.length));
-		return sum/(bestAverages.length)+1000000000*totalSorts/(correctSorts+1);
+		return correctSorts/(double)totalSorts;
+	}
+	
+	public int getPoints(){
+		return points;
 	}
 	
 

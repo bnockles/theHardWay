@@ -48,7 +48,9 @@ public class Runner extends GUIApplication{
 	
 	void populate(ArrayList<Contestant> participants){
 		int x = 40; 
-		int y = 60; 
+		int initY = 60;
+		int y = initY; 
+		for(int j = 0; j < 2; j++){
 		for(int i = 0; i < 4; i++){
 			
 			Contestant c = new SampleContestant();
@@ -66,11 +68,15 @@ public class Runner extends GUIApplication{
 			c.setY(y);
 			c.setNumber(i+1);
 			y+=c.getHeight()+10;
+			if(y+c.getHeight() > getHeight()){
+				y = initY;
+				x+= 5+c.getWidth();
+			}
 			participants.add(c);
 			Thread animation = new Thread(c);
 			animation.start();
 		}
-		
+		}
 	}
 
 	@Override
