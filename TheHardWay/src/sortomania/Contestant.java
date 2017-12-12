@@ -59,10 +59,10 @@ public abstract class Contestant extends Component implements Runnable{
 	public static final String CAMMY = "resources/cammy-sprite-sheet.png";
 
 	public Contestant() {
-		super(0, 0, 410, 170);
+		super(0, 0, 310, 170);
 		recordedTimes = new long[5][15];
 		bestAverages = new double[5];
-		currentScore = 50;
+		currentScore = 100;
 		wonLastRound = true;
 		status = "";
 		frame = new ArrayList<BufferedImage>();
@@ -233,11 +233,11 @@ public abstract class Contestant extends Component implements Runnable{
 		g.setStroke(new BasicStroke(1));
 		g.drawString(title+": "+this+", Score: "+points, 45, 20);
 		g.drawString(status, 45, 35);
-		if(currentScore <60){
+		if(currentScore <25){
 			g.setColor(Color.red);
-		}else if(currentScore < 70){
+		}else if(currentScore < 50){
 			g.setColor(Color.yellow);
-		}else if(currentScore < 80){
+		}else if(currentScore < 70){
 			g.setColor(new Color(190,255,200));
 		}else if(currentScore < 90){
 			g.setColor(new Color(148,255,231));
@@ -400,7 +400,7 @@ public abstract class Contestant extends Component implements Runnable{
 		totalSorts += 1;
 		if(b){
 			correctSorts+=1;
-			currentScore+=.1;
+//			currentScore+=.1;
 		}else{
 			currentScore-=.1;
 		}
@@ -448,7 +448,7 @@ public abstract class Contestant extends Component implements Runnable{
 		}
 	}
 
-	public final int getScore() {
+	public final int getHP() {
 		return (int)(currentScore);
 	}
 
@@ -470,6 +470,28 @@ public abstract class Contestant extends Component implements Runnable{
 			}
 			bestAverages[test-1] = (int)(10000*(sum / (recordedTimes[test-1].length*1000000)))/10000.0;
 		}
+	}
+	
+	public double getScore(){
+		double sum = 0.0;
+		for(double avg : bestAverages){
+			sum += avg;
+			if(avg == 0.0){
+				sum += 5000000;
+			}
+		}
+		System.out.println(this+"'s average is "+ sum/(bestAverages.length));
+		return sum/(bestAverages.length)+1000000000*totalSorts/(correctSorts+1);
+	}
+	
+
+	public final void damage(double d) {
+		currentScore -= d;
+		
+	}
+
+	public final void setHP(double i) {
+		currentScore = i;
 	}
 
 }

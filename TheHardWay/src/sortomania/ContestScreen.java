@@ -1,10 +1,19 @@
 package sortomania;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import guiTeacher.components.Action;
+import guiTeacher.components.Button;
 import guiTeacher.components.TextLabel;
 import guiTeacher.interfaces.Visible;
 import guiTeacher.userInterfaces.ClickableScreen;
@@ -18,6 +27,8 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 	private ArrayList<Contestant> participants;
 	private ArrayList<Contestant> runnersUp;
 	private TextLabel message;
+	private Button callIt;
+	private boolean keepRunning;
 	private int pairsCompeting;
 	private int pairsFinished;
 	private int round;
@@ -41,11 +52,49 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 	@Override
 	public void initAllObjects(List<Visible> viewObjects) {
 		runnersUp = new ArrayList<Contestant>();
-		message = new TextLabel(5, 30, getWidth()-10, 40, "");
+		message = new TextLabel(5, 20, getWidth()-10, 40, "");
+		callIt = new Button(20, 10, 190, 45, "Call It", new Action() {
+			
+			@Override
+			public void act() {
+				System.out.println("Call It Pressed");
+				keepRunning = false;
+				
+			}
+		});
+		
+//		InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("alphbeta.ttf");
+		InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("Pixel NES.otf");
+		try {
+			Font font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(20f);
+			message.setFont(font);
+			callIt.setFont(font);
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+
+		
+		
 		message.setCustomAlign(0);
 		viewObjects.add(message);
+		viewObjects.add(callIt);
 	}
 
+	
+
+	public boolean isKeepRunning() {
+		return keepRunning;
+	}
+
+	public void setKeepRunning(boolean keepRunning) {
+		this.keepRunning = keepRunning;
+	}
 
 	public void run() {
 		round = 0;
@@ -65,13 +114,16 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 				champ.move((getWidth()-champ.getWidth())/2, 90);
 				displayMessage("The champion is "+champ);
 				displayRunnersUp();
-
+				
 			}else{
+				for(Contestant c: participants){
+					c.setHP(100.0);
+				}
 				newRound();
 			}
 
 		}else{
-			displayMessage("Waiting for "+(pairsCompeting-pairsFinished)+" pairs to finish.");
+			displayMessage("Waiting for "+(pairsCompeting-pairsFinished)+"/"+pairsCompeting+" pairs to finish.");
 		}
 	}
 
@@ -80,11 +132,14 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 
 			@Override
 			public int compare(Contestant o1, Contestant o2) {
-				return o2.getScore() - o1.getScore();
+				//smallest value is in first place
+				if (o2.getScore() < o1.getScore())return 1;
+				else if (o2.getScore() > o1.getScore())return -1;
+				else return 0;
 			}
 
 		});
-		int initY = 310;
+		int initY = 260;
 		int x = 25;
 		int y = initY;
 		for(Contestant c :runnersUp){
@@ -113,7 +168,7 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 			show.start();
 
 			c.move(x, y);
-			y+= c.getHeight()+10;
+			y+= c.getHeight()+3;
 			if(y+c.getHeight() > getHeight()){
 				y = initY;
 				x+= c.getWidth()+10;
@@ -123,6 +178,7 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 	}
 
 	private void newRound() {
+		keepRunning = true;
 		round++;
 		DataSets ds = new DataSets();
 		pairsCompeting = 0;
@@ -162,9 +218,9 @@ public class ContestScreen extends ClickableScreen implements Runnable{
 
 	private void positionCompetitors() {
 		int xa = 50;
-		int xb = 480;
+		int xb = 380;
 		int y = 50;
-		int deltaY = 180;
+		int deltaY = 172;
 		for(int i = 0; i < participants.size() - 1; i++){
 			Contestant c1 = participants.get(i);
 			Contestant c2 = participants.get(++i);

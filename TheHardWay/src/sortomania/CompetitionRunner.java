@@ -20,7 +20,7 @@ public class CompetitionRunner implements Runnable {
 	@Override
 	public void run() {
 		int trials = ds.getTotalTrials();
-
+		
 		test(new Task() {
 
 			@Override
@@ -95,32 +95,36 @@ public class CompetitionRunner implements Runnable {
 	}
 
 	public void test(Task task, int trials){
-		for(int i = 0; i < trials; i ++){
+		for(int i = 0; i < trials && Runner.screen.isKeepRunning(); i ++){
 			c.beginTask(task.getNumber());
 			long time = System.nanoTime();
-			int penalty = pair.getWinner() == null ? 3000 : 0;
+			long errorPenalty = 0;
+			int penalty = pair.getWinner() == null ? 1000 : 0;
 			try{
 				task.task(i);
 			}catch(ArrayIndexOutOfBoundsException e){
-				
+				errorPenalty = 100000000;
 				c.penalize("ArrayIndexOutOfBoundsException!",penalty);
 				c.successfulSort(false, i);
 				c.successfulFind(false, i);
 			}catch(NullPointerException npe){
+				errorPenalty = 100000000;
 				c.penalize("NullPointerException!",penalty);
 				c.successfulSort(false, i);
 				c.successfulFind(false, i);
 			}catch(StackOverflowError soe){
+				errorPenalty = 100000000;
 				c.penalize("Stack Overflow Error!",penalty);
 				c.successfulSort(false, i);
 				c.successfulFind(false, i);
 			}catch(Exception e){
+				errorPenalty = 100000000;
 				c.penalize("Unknown Error!",penalty);
 				c.successfulSort(false, i);
 				c.successfulFind(false, i);
 			}
 			long finishTime = System.nanoTime();
-			c.addTime(task.getNumber(), i, finishTime-time);
+			c.addTime(task.getNumber(), i, finishTime-time+errorPenalty);
 		}
 	}
 
@@ -130,9 +134,7 @@ public class CompetitionRunner implements Runnable {
 		Generic[] copy = Arrays.copyOf(original, original.length);
 		int index= c.sortAndSearch(copy, ds.getTask5Key(i));
 		boolean pass = ds.checkTest5(c, copy, index, i);
-		if (!pass && pair.getWinner() == null){
-			pause(1.0);
-		}
+		afterEffects(pass);
 
 	}
 
@@ -142,9 +144,7 @@ public class CompetitionRunner implements Runnable {
 		int[][] copy = copyOf(original);
 		double median = c.sortMultiDim(copy);
 		boolean pass = ds.checkTest4(c, copy, median, i);
-		if (!pass && pair.getWinner() == null){
-			pause(2.0);
-		}
+		afterEffects(pass);
 
 	}
 	
@@ -164,21 +164,25 @@ public class CompetitionRunner implements Runnable {
 		int[] copy = Arrays.copyOf(original, original.length);
 		double median = c.mostlySortAndGetMedian(copy);
 		boolean pass = ds.checkTest3(c, copy, median, i);
-		if (!pass && pair.getWinner() == null){
-			pause(1.0);
-		}
+		afterEffects(pass);
 
 	}
 
+	private void afterEffects(boolean pass){
+		if (!pass && pair.getWinner() == null){
+			pause(1.0);
+		}else if(pass && pair.getWinner() == null){
+			pair.damageOpponentOf(c);
+		}
+	}
+	
 	private void test2(int i) {
 
 		String[] original = ds.getTask2Data(i);
 		String[] copy = Arrays.copyOf(original, original.length);
 		int index = c.sortAndGetResultingIndexOf(copy, ds.getTask2Key(i));
 		boolean pass = ds.checkTest2(c, copy, index, i);
-		if (!pass && pair.getWinner() == null){
-			pause(1.0);
-		}
+		afterEffects(pass);
 
 	}
 
@@ -188,9 +192,7 @@ public class CompetitionRunner implements Runnable {
 		int[] copy = Arrays.copyOf(original, original.length);
 		double median = c.sortAndGetMedian(copy);
 		boolean pass = ds.checkTest1(c, copy, median, i);
-		if (!pass && pair.getWinner() == null){
-			pause(1.0);
-		}
+		afterEffects(pass);
 
 	}
 
